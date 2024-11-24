@@ -1,0 +1,64 @@
+[
+    {
+        "type":"Feature",
+        "properties":{
+            "Name":"Colored School 3",
+            "AltName1":"P.S. 69",
+            "AltName2":"P.S. 191",
+            "Address":"270 Union Ave",
+            "City":"New York City",
+            "Neighborhood":"Williamsburg",
+            "BoroughCounty":"Brooklyn",
+            "State":"NY",
+            "YearBuilt":1881,
+            "YearDesegregated":1901,
+            "YearCeased":1934,
+            "CurrentState":"Residential"
+        },
+        "geometry":{
+            "coordinates":[-73.95059227656141,40.70856160839435],
+            "type":"Point"
+        }
+    },
+    {
+        "type":"Feature",
+        "properties":{
+            "Name":"Colored School 2",
+            "AltName1":"P.S. 68",
+            "Address":"1634 Dean St",
+            "AltName2":"P.S. 243",
+            "YearBuilt":1839,
+            "YearDesegregated":1893,
+            "City":"New York City",
+            "Neighborhood":"Crown Heights",
+            "BoroughCounty":"Brooklyn",
+            "State":"NY","YearCeased":1966,
+            "CurrentState":"Vacant"
+        },
+        "geometry":{
+            "coordinates":[-73.93335576046752,40.67581706891821],
+            "type":"Point"
+        }
+    },
+    {
+        "type":"Feature",
+        "properties":{
+            "Name":"Colored School 1",
+            "AltName1":"P.S. 67",
+            "YearBuilt":1827,
+            "YearDesegregated":1887,
+            "YearCeased":"NA",
+            "BoroughCounty":"Brooklyn",
+            "State":"NY",
+            "Neighborhood":"Fort Greene",
+            "City":"New York City",
+            "CurrentState":"School",
+            "Address":"51 St Edwards St",
+            "AltName2":""
+        },
+        "geometry":{
+            "coordinates":[-73.976991346083,40.69439968319415],
+            "type":"Point"
+        }
+    }
+]
