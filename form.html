@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Submit Data</title>
+   <!-- Mapbox CSS -->
+   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+       }
+       #map {
+           width: 100%;
+           height: 400px;
+           margin-bottom: 20px;
+       }
+   </style>
+    <script>
+        function enforceWordLimit(textarea, maxWords) {
+            let words = textarea.value.trim().split(/\s+/);
+            if (words.length > maxWords) {
+                // Trim the value to the first maxWords words
+                textarea.value = words.slice(0, maxWords).join(" ");
+            }
+        }
+    </script>
+</head>
+<body>
+   <h1>Submit Your Data</h1>
+   <form action="/submit" method="POST">
+     <!-- Outer Fieldset -->
+     <fieldset>
+        <legend>Location</legend>
+        <label for="area">Area of work:</label>
+        <input type="text" id="area" name="area" required><br><br>
+        <label for="City">City:</label>
+        <input type="text" id="City" name="City"><br><br>
+        <label for="BoroughCounty">County (In NYC: borough):</label>
+        <input type="text" id="BoroughCounty" name="BoroughCounty" required><br><br>
+        <label for="Neighborhood">Neighborhood (In NYC: borough):</label>
+        <input type="text" id="Neighborhood" name="Neighborhood"><br><br>
+        <label for="State">State (In NYC: borough):</label>
+        <input type="text" id="State" name="State" required><br><br>
+    </fieldset>
+    <fieldset id="contact">
+        <legend>Contact information</legend>
+        <fieldset>
+            <legend>Person responsible for the data collection</legend>
+            <label for="Name">Name:</label>
+            <input type="text" id="Name" name="Name" required><br><br>
+            <label for="Position">Position/role with partnered organization:</label>
+            <input type="text" id="Position" name="Position" required><br><br>
+            <label for="Email_Responsible">Email:</label>
+            <input type="email" id="Email_Responsible" name="Email_Responsible"required><br><br>
+            <label for="Phone">Phone Number:</label>
+            <input type="number" id="Phone" name="Phone"required><br><br>
+        </fieldset>
+        <fieldset id="contributor_principal">
+            <legend>Partnered organization of the person responsible for the data collection</legend>
+            <label for="Organization">Name of the organization:</label>
+            <input type="text" id="Organization" name="Organization"required><br><br>
+            <label for="type_organization">Type of organization (Choose an options):</label>
+            <select id="type_organization" name="type_organization" required>
+                <option value="School">School (High School or Primary School)</option>
+                <option value="University">University, Collage or higher education</option>
+                <option value="HistoricalSociety">Historical Society or similar</option>
+                <option value="Museum">Museum, Historic Center or similar organization</option>
+                <option value="Other">Other</option>
+            </select><br><br>
+        </fieldset>
+        <fieldset id="contributors-section">
+            <legend>Other contributors and partnered organizations</legend>
+            <div class="contributor">
+                <label for="organization-1">Name of the organization:</label>
+                <input type="text" id="organization-1" name="organization[]" ><br><br>
+        
+                <label for="type_organization-1">Type of organization (Choose an option):</label>
+                <select id="type_organization-1" name="type_organization[]" >
+                    <option value="School">School (High School or Primary School)</option>
+                    <option value="University">University, College or Higher Education</option>
+                    <option value="HistoricalSociety">Historical Society or Similar</option>
+                    <option value="Museum">Museum, Historic Center, or Similar Organization</option>
+                    <option value="Other">Other</option>
+                </select>
+                <br><br>
+            </div>
+        </fieldset>
+        <button type="button" onclick="addContributor()">Add Another Contributor</button>
+        
+        <script>
+            let contributorCount = 1;
+        
+            function addContributor() {
+                contributorCount++;
+        
+                // Create a new div container for the additional contributor fields
+                const newContributor = document.createElement('div');
+                newContributor.className = 'contributor';
+        
+                // Add the input fields dynamically
+                newContributor.innerHTML = `
+                    <label for="organization-${contributorCount}">Name of the organization:</label>
+                    <input type="text" id="organization-${contributorCount}" name="organization[]" ><br><br>
+                    
+                    <label for="type_organization-${contributorCount}">Type of organization (Choose an option):</label>
+                    <select id="type_organization-${contributorCount}" name="type_organization[]" >
+                        <option value="School">School (High School or Primary School)</option>
+                        <option value="University">University, College or Higher Education</option>
+                        <option value="HistoricalSociety">Historical Society or Similar</option>
+                        <option value="Museum">Museum, Historic Center, or Similar Organization</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <br><br>
+                `;
+        
+                // Append the new contributor fields to the fieldset
+                document.getElementById('contributors-section').appendChild(newContributor);
+            }
+        </script>
+    </fieldset>
+    <fieldset id="School">
+        <legend>School and relevand figures</legend>
+        <fieldset id="Basic_inforamtion">
+            <legend>School inforamtion</legend>
+            <label for="Name">Name of the school</label>
+            <input type="text" id="Name" name="Name" required><br><br>
+        </fieldset>   
+        <fieldset id="Othernames">
+            <legend>Other names of the school</legend>
+             <label for="N1Name">Name 1</label>
+             <input type="text" id="N1Name" name="N1Name" required><br><br>
+             <label for="N1year">Year 1</label>
+             <input type="number" min="1700" max="2099" id="N1year" name="N1year" required><br><br>
+             <label for="N2Name">Name 1</label>
+             <input type="text" id="N2Name" name="N2Name" required><br><br>
+             <label for="N2year">Year 1</label>
+             <input type="number" min="1700" max="2099" id="N2year" name="N2year" required><br><br>
+             <label for="N3Name">Name 1</label>
+             <input type="text" id="N3Name" name="N3Name" required><br><br>
+             <label for="N3year">Year 1</label>
+             <input type="number" min="1700" max="2099" id="N3year" name="N3year" required><br><br>
+        </fieldset>  
+        <fieldset id="Location">
+            <div id="map"></div>
+            <legend>Location of the school</legend>
+            <label for="lon">Longitude:</label>
+            <input type="number" step="any" id="lon" name="lon" required readonly><br><br>
+            <label for="lat">Latitude:</label>
+            <input type="number" step="any" id="lat" name="lat" required readonly><br><br>
+            <label for="Adress">Adress:</label>
+            <input type="text" id="Adress" name="Adress" required><br><br>
+            <label for="City">City:</label>
+            <input type="text" id="City" name="City"><br><br>
+            <label for="BoroughCounty">County (In NYC: borough):</label>
+            <input type="text" id="BoroughCounty" name="BoroughCounty" required><br><br>
+            <label for="Neighborhood">Neighborhood (In NYC: borough):</label>
+            <input type="text" id="Neighborhood" name="Neighborhood"><br><br>
+            <label for="State">State (In NYC: borough):</label>
+            <input type="text" id="State" name="State"><br><br>
+            <label for="CurrentState">Current State of the building (physical condition)</label>
+            <select id="CurrentState" name="CurrentState" required>
+                <option value="Demolished">Demolished/Not exists anymore</option>
+                <option value="Ruinous">Ruinous</option>
+                <option value="Refurbishment">In need of maintenance/Refurbishment</option>
+                <option value="PartiallyMaintained">Partially maintained</option>
+                <option value="Preserved">Well maintained and preserved</option>
+            </select>
+            <label for="Landmarked">Is it landmarked? </label>
+            <select id="Landmarked" name="Landmarked" required>
+                <option value="Yes">Yes, it is marked as a landmark</option>
+                <option value="Ruinous">No, it is not a landmark</option>
+            </select>
+            <label for="LandmarkedBy">Who recognizes the building as a landmark?:</label>
+            <input type="text" id="LandmarkedBy" name="LandmarkedBy"><br><br>
+            <label for="Sign">Is there a sign in the site that marks it as a landmark? </label>
+            <select id="Sign" name="Sign" required>
+                <option value="Yes">Yes, there is</option>
+                <option value="Ruinous">No, there isn't</option>
+            </select>
+            <label for="Owner">Who is the owner?:</label>
+            <input type="text" id="Owner" name="Owner"><br><br>
+        </fieldset>  
+        <fieldset id="Description">
+            <legend>Description of the school</legend>
+            <label for="YearInstitutionCreation">Year of the creation of the institution of the school:</label>
+            <input type="number" id="YearInstitutionCreation" name="YearInstitutionCreation"><br><br>
+            <label for="YearBuildingStars">Year when they started building the school:</label>
+            <input type="number" id="YearBuildingStars" name="YearBuildingStars"><br><br>
+            <label for="YearBuildingEnd">Year when they ended building the school:</label>
+            <input type="number" id="YearBuildingEnd" name="YearBuildingEnd"><br><br>
+            <label for="YearDesegregation">Year when its desegragated:</label>
+            <input type="number" id="YearDesegregation" name="YearDesegregation"><br><br>
+            <label for="YearCeased">Year when it is not used as a school anymore:</label>
+            <input type="number" id="YearCeased" name="YearCeased"><br><br>
+            <label for="YearDemolished">Year when it is demolished:</label>
+            <input type="number" id="YearDemolished" name="YearDemolished"><br><br>
+            <label for="BriefDescription">Description:</label>
+            <textarea id="BriefDescription" name="BriefDescription" oninput="enforceWordLimit(this, 200)"></textarea><br><br>
+            <label for="Sources">Sources:</label>
+            <textarea id="Sources" name="Sources"></textarea><br><br>
+      </fieldset>       
+      <button type="submit">Submit</button>
+   </form>
+
+   <!-- Mapbox JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<script>
+// ADD YOUR MAPBOX ACCESS TOKEN
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWlrYmVycmEiLCJhIjoiY20xODh2MHdwMTIwdDJxcHNhazBoZTE3NCJ9.KQAl5jVzZBXZUvvLoD4x_Q'
+   
+    // Initialize the map
+    const map = new mapboxgl.Map({
+        container: 'map', // Container ID
+        style: 'mapbox://styles/mikberra/cm1gpvzcc00y601nw1c3iaao8', // Map style
+        center: [-73.9442, 40.6782], // Coordinates for Brooklyn, NY [lon, lat]
+        zoom: 12 // Adjust zoom level for a closer view
+    });
+
+    // Add map controls
+    map.addControl(new mapboxgl.NavigationControl());
+
+    // Marker for selected location
+    let marker;
+
+    // Click event to get coordinates
+    map.on('click', (e) => {
+        const lon = e.lngLat.lng;
+        const lat = e.lngLat.lat;
+
+        // Update form fields with coordinates
+        document.getElementById('lon').value = lon.toFixed(6);
+        document.getElementById('lat').value = lat.toFixed(6);
+
+        // Place or move marker on the map
+        if (marker) {
+            marker.setLngLat([lon, lat]);
+        } else {
+            marker = new mapboxgl.Marker().setLngLat([lon, lat]).addTo(map);
+        }
+    });
+</script>
+   
+</body>
+</html>
+
