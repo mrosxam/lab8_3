@@ -13,7 +13,7 @@ map.on('load', () => {
   // Step 1: Add GeoJSON data source (You’ve already finished this in Lab7)
   map.addSource('mongoLayer', {
       type: 'geojson',
-      data: 'https://blackschools-34a780a8e086.herokuapp.com//api/geojson' // Replace with your API endpoint
+      data: 'https://blackschools-34a780a8e086.herokuapp.com/api/geojson' // Replace with your API endpoint
   });
 
   // Step 2: Add a data layer (You’ve already finished this in Lab7)
