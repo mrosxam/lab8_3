@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Submit Data</title>
+   <!-- Mapbox CSS -->
+   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+       }
+       #map {
+           width: 100%;
+           height: 400px;
+           margin-bottom: 20px;
+       }
+   </style>
+    <script>
+        function enforceWordLimit(textarea, maxWords) {
+            let words = textarea.value.trim().split(/\s+/);
+            if (words.length > maxWords) {
+                // Trim the value to the first maxWords words
+                textarea.value = words.slice(0, maxWords).join(" ");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Submit Your Data</h1>
+    <form action="/submit" method="POST">
+        <!-- Outer Fieldset -->
+        <fieldset id="generalinformation">
+            <legend>Location</legend>
+            <label for="area_of_work">Area of work:</label>
+            <input type="text" id="area_of_work" name="area_of_work" required><br><br>
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city"><br><br>
+            <label for="borough_county">County (In NYC: borough):</label>
+            <input type="text" id="borough_county" name="borough_county" required><br><br>
+            <label for="neighborhood">Neighborhood</label>
+            <input type="text" id="neighborhood" name="neighborhood"><br><br>
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" required><br><br>
+        </fieldset>
+    
+        <fieldset id="contact">
+            <legend>Contact information</legend>
+            <fieldset>
+                <legend>Person responsible for the data collection</legend>
+                <label for="contact_name">Name:</label>
+                <input type="text" id="contact_name" name="contact_name" required><br><br>
+                <label for="position">Position/role with partnered organization:</label>
+                <input type="text" id="position" name="position" required><br><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+                <label for="phone">Phone Number:</label>
+                <input type="number" id="phone" name="phone" required><br><br>
+            </fieldset>
+    
+            <fieldset id="contributor_principal">
+                <legend>Partnered organization of the person responsible for the data collection</legend>
+                <label for="organization_p">Name of the organization:</label>
+                <input type="text" id="organization_p" name="organization_p" required><br><br>
+                <label for="type_of_organization_p">Type of organization (Choose an option):</label>
+                <select id="type_of_organization_p" name="type_of_organization_p" required>
+                    <option value="School">School (High School or Primary School)</option>
+                    <option value="University">University, College or higher education</option>
+                    <option value="HistoricalSociety">Historical Society or similar</option>
+                    <option value="Museum">Museum, Historic Center or similar organization</option>
+                    <option value="Other">Other</option>
+                </select><br><br>
+            </fieldset>
+        </fieldset>
+    
+        <fieldset id="School">
+            <legend>School and relevant figures</legend>
+            <fieldset id="Basic_information">
+                <legend>School information</legend>
+                <label for="school_name">Name of the school</label>
+                <input type="text" id="school_name" name="school_name" required><br><br>
+            </fieldset>
+            <fieldset id="Location">
+                <div id="map"></div>
+                <legend>Location of the school</legend>
+                <label for="lon">Longitude:</label>
+                <input type="number" step="any" id="lon" name="lon" required readonly><br><br>
+                <label for="lat">Latitude:</label>
+                <input type="number" step="any" id="lat" name="lat" required readonly><br><br>
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required><br><br>
+                <label for="school_city">City:</label>
+                <input type="text" id="school_city" name="school_city"><br><br>
+                <label for="school_borough_county">County (In NYC: borough):</label>
+                <input type="text" id="school_borough_county" name="school_borough_county" required><br><br>
+                <label for="school_neighborhood">Neighborhood (In NYC: borough):</label>
+                <input type="text" id="school_neighborhood" name="school_neighborhood"><br><br>
+                <label for="school_state">State (In NYC: borough):</label>
+                <input type="text" id="school_state" name="school_state"><br><br>
+                <label for="current_state">Current State of the building (physical condition)</label>
+                <select id="current_state" name="current_state" required>
+                    <option value="Demolished">Demolished/Not exists anymore</option>
+                    <option value="Ruinous">Ruinous</option>
+                    <option value="Refurbishment">In need of maintenance/Refurbishment</option>
+                    <option value="PartiallyMaintained">Partially maintained</option>
+                    <option value="Preserved">Well maintained and preserved</option>
+                </select><br><br>
+    
+                <label for="landmarked">Is it landmarked?</label>
+                <select id="landmarked" name="landmarked" required>
+                    <option value="Yes">Yes, it is marked as a landmark</option>
+                    <option value="No">No, it is not a landmark</option>
+                </select><br><br>
+    
+                <label for="landmarked_by">Who recognizes the building as a landmark?</label>
+                <input type="text" id="landmarked_by" name="landmarked_by"><br><br>
+    
+                <label for="sign">Is there a sign in the site that marks it as a landmark?</label>
+                <select id="sign" name="sign" required>
+                    <option value="Yes">Yes, there is</option>
+                    <option value="No">No, there isn't</option>
+                </select><br><br>
+    
+                <label for="owner">Who is the owner?</label>
+                <input type="text" id="owner" name="owner"><br><br>
+            </fieldset>
+    
+            <fieldset id="Description">
+                <legend>Description of the school</legend>
+                <label for="year_institution_creation">Year of the creation of the institution of the school:</label>
+                <input type="number" id="year_institution_creation" name="year_institution_creation"><br><br>
+                <label for="year_building_started">Year when they started building the school:</label>
+                <input type="number" id="year_building_started" name="year_building_started"><br><br>
+                <label for="year_building_ended">Year when the building ended:</label>
+                <input type="number" id="year_building_ended" name="year_building_ended"><br><br>
+                <label for="year_desegration">Year of desegregation:</label>
+                <input type="number" id="year_desegration" name="year_desegration"><br><br>
+                <label for="year_ceased">Year ceased:</label>
+                <input type="number" id="year_ceased" name="year_ceased"><br><br>
+                <label for="year_demolished">Year demolished:</label>
+                <input type="number" id="year_demolished" name="year_demolished"><br><br>
+                <label for="brief_description">Brief description:</label>
+                <textarea id="brief_description" name="brief_description"></textarea><br><br>
+                <label for="sources_description">Sources:</label>
+                <textarea id="sources_description" name="sources_description"></textarea><br><br>
+            </fieldset>
+        </fieldset>
+        <button type="submit">Submit</button>
+    </form>
+
+
+
+   <!-- Mapbox JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<script>
+
+// ADD YOUR MAPBOX ACCESS TOKEN
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWlrYmVycmEiLCJhIjoiY20xODh2MHdwMTIwdDJxcHNhazBoZTE3NCJ9.KQAl5jVzZBXZUvvLoD4x_Q'
+   
+    // Initialize the map
+    const map = new mapboxgl.Map({
+        container: 'map', // Container ID
+        style: 'mapbox://styles/mikberra/cm1gpvzcc00y601nw1c3iaao8', // Map style
+        center: [-73.9442, 40.6782], // Coordinates for Brooklyn, NY [lon, lat]
+        zoom: 12 // Adjust zoom level for a closer view
+    });
+
+    // Add map controls
+    map.addControl(new mapboxgl.NavigationControl());
+
+    // Marker for selected location
+    let marker;
+
+    // Click event to get coordinates
+    map.on('click', (e) => {
+        const lon = e.lngLat.lng;
+        const lat = e.lngLat.lat;
+
+        // Update form fields with coordinates
+        document.getElementById('lon').value = lon.toFixed(6);
+        document.getElementById('lat').value = lat.toFixed(6);
+
+        // Place or move marker on the map
+        if (marker) {
+            marker.setLngLat([lon, lat]);
+        } else {
+            marker = new mapboxgl.Marker().setLngLat([lon, lat]).addTo(map);
+        }
+    });
+</script>
+   
+</body>
+</html>
+
